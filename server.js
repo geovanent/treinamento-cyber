@@ -164,6 +164,10 @@ function pageShell({ title, body, loggedIn = false }) {
 }
 
 function loginPage(error = "", debugSql = "") {
+  const sqlPreview =
+    debugSql ||
+    "SELECT * FROM users WHERE email = 'geovanent@gmail.com' AND password = '123@Mudar' LIMIT 1";
+
   return pageShell({
     title: "Login",
     body: `
@@ -200,10 +204,19 @@ function loginPage(error = "", debugSql = "") {
             <a href="#">Esqueci minha senha</a>
             <a href="#">Cadastrar dispositivo</a>
           </div>
-          <div class="demo-note">
-            SQL Injection: <code>' OR 1=1 --</code>
+          <div class="debug-dev">
+            <label class="debug-switch" for="debug-dev-toggle">
+              <span>Debug Dev</span>
+              <input id="debug-dev-toggle" type="checkbox">
+              <b aria-hidden="true"></b>
+            </label>
+            <div class="debug-panel">
+              <div class="demo-note">
+                SQL Injection: <code>' OR 1=1 --</code>
+              </div>
+              <pre class="sql-preview">${sqlPreview}</pre>
+            </div>
           </div>
-          ${debugSql ? `<pre class="sql-preview">${debugSql}</pre>` : ""}
         </section>
       </section>`
   });

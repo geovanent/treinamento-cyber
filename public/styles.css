@@ -306,6 +306,69 @@ form .password-toggle {
   font-weight: 800;
 }
 
+.debug-dev {
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+  padding-top: 16px;
+}
+
+.debug-switch {
+  align-items: center;
+  color: #3f4654;
+  cursor: pointer;
+  display: flex;
+  font-size: 13px;
+  font-weight: 900;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.debug-switch input {
+  height: 1px;
+  opacity: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.debug-switch b {
+  background: #d7dbe3;
+  border-radius: 999px;
+  display: inline-flex;
+  height: 24px;
+  position: relative;
+  transition: background 160ms ease;
+  width: 44px;
+}
+
+.debug-switch b::before {
+  background: var(--white);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(31, 31, 31, 0.2);
+  content: "";
+  height: 18px;
+  left: 3px;
+  position: absolute;
+  top: 3px;
+  transition: transform 160ms ease;
+  width: 18px;
+}
+
+.debug-switch input:checked + b {
+  background: var(--red);
+}
+
+.debug-switch input:checked + b::before {
+  transform: translateX(20px);
+}
+
+.debug-panel {
+  display: none;
+}
+
+.debug-dev.is-open .debug-panel {
+  display: block;
+}
+
 .demo-note {
   background: #fff6f6;
   border: 1px dashed rgba(236, 0, 0, 0.38);
