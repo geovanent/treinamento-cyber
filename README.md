@@ -45,7 +45,7 @@ Se o Coolify falhar em `docker push bank:<commit>`, o build passou e o problema 
 ## Credenciais demo
 
 ```text
-Usuario: cliente@mockbank.test
+Usuario: geovanent@gmail.com
 Senha: 123@Mudar
 ```
 

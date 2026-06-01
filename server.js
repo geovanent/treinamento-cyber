@@ -54,6 +54,10 @@ function get(sql, params = []) {
 }
 
 async function initializeDatabase() {
+  await run("DROP TABLE IF EXISTS comments");
+  await run("DROP TABLE IF EXISTS transactions");
+  await run("DROP TABLE IF EXISTS users");
+
   await run(`
     CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -89,44 +93,33 @@ async function initializeDatabase() {
     )
   `);
 
-  const existingUser = await get("SELECT id FROM users WHERE email = ?", [
-    "cliente@mockbank.test"
-  ]);
-
-  if (!existingUser) {
-    const user = await run(
-      `
-        INSERT INTO users (name, email, password, agency, account, balance)
-        VALUES (?, ?, ?, ?, ?, ?)
-      `,
-      [
-        "Marina Andrade",
-        "cliente@mockbank.test",
-        "123@Mudar",
-        "3842",
-        "009873-2",
-        18427.65
-      ]
-    );
-
-    await run(
-      `
-        INSERT INTO transactions (user_id, description, category, amount, created_at)
-        VALUES
-        (?, 'Pix recebido - Ana Paula', 'Pix', 1250.00, '2026-05-31 09:42'),
-        (?, 'Supermercado Nova Vila', 'Debito', -342.79, '2026-05-30 18:08'),
-        (?, 'Aplicacao CDB Plus', 'Investimentos', -2500.00, '2026-05-29 10:21'),
-        (?, 'Salario Empresa Aurora', 'Credito', 8500.00, '2026-05-28 08:00'),
-        (?, 'Fatura cartao final 1842', 'Cartao', -1986.43, '2026-05-27 22:17')
-      `,
-      [user.lastID, user.lastID, user.lastID, user.lastID, user.lastID]
-    );
-  } else {
-    await run("UPDATE users SET password = ? WHERE email = ?", [
+  const user = await run(
+    `
+      INSERT INTO users (name, email, password, agency, account, balance)
+      VALUES (?, ?, ?, ?, ?, ?)
+    `,
+    [
+      "Geovane Chaves",
+      "geovanent@gmail.com",
       "123@Mudar",
-      "cliente@mockbank.test"
-    ]);
-  }
+      "3842",
+      "009873-2",
+      18427.65
+    ]
+  );
+
+  await run(
+    `
+      INSERT INTO transactions (user_id, description, category, amount, created_at)
+      VALUES
+      (?, 'Pix recebido - Ana Paula', 'Pix', 1250.00, '2026-05-31 09:42'),
+      (?, 'Supermercado Nova Vila', 'Debito', -342.79, '2026-05-30 18:08'),
+      (?, 'Aplicacao CDB Plus', 'Investimentos', -2500.00, '2026-05-29 10:21'),
+      (?, 'Salario Empresa Aurora', 'Credito', 8500.00, '2026-05-28 08:00'),
+      (?, 'Fatura cartao final 1842', 'Cartao', -1986.43, '2026-05-27 22:17')
+    `,
+    [user.lastID, user.lastID, user.lastID, user.lastID, user.lastID]
+  );
 }
 
 function money(value) {
@@ -191,9 +184,9 @@ function loginPage(error = "", debugSql = "") {
             <span>Mock Bank Digital</span>
           </div>
           ${error ? `<div class="alert">${error}</div>` : ""}
-          <form method="post" action="/login">
+            <form method="post" action="/login">
             <label for="email">CPF, e-mail ou usuario</label>
-            <input id="email" name="email" autocomplete="username" placeholder="cliente@mockbank.test" required>
+            <input id="email" name="email" autocomplete="username" placeholder="geovanent@gmail.com" required>
             <label for="password">Senha</label>
             <div class="password-field">
               <input id="password" name="password" type="password" autocomplete="current-password" required>
@@ -206,6 +199,9 @@ function loginPage(error = "", debugSql = "") {
           <div class="login-links">
             <a href="#">Esqueci minha senha</a>
             <a href="#">Cadastrar dispositivo</a>
+          </div>
+          <div class="demo-note">
+            SQL Injection: <code>' OR 1=1 --</code>
           </div>
           ${debugSql ? `<pre class="sql-preview">${debugSql}</pre>` : ""}
         </section>
