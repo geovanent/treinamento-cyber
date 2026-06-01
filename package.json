@@ -1,0 +1,16 @@
+{
+  "name": "mock-bank-vulnerable-demo",
+  "version": "1.0.0",
+  "description": "Demo educacional intencionalmente vulneravel com SQL Injection e XSS armazenado.",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "sqlite3": "^5.1.7"
+  },
+  "private": true
+}

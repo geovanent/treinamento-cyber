@@ -1,0 +1,5 @@
+node_modules/
+data/*.db
+.playwright-mcp/
+*.png
+console.log
