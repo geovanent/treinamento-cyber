@@ -21,14 +21,30 @@ npm run dev
 Abra:
 
 ```text
-http://127.0.0.1:3000
+http://127.0.0.1:4001
 ```
+
+## Docker / Coolify
+
+Para rodar com Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+No Coolify, use o `docker-compose.yml` do repositorio. Configure a variavel:
+
+```text
+SESSION_SECRET=troque-por-um-valor-grande-e-aleatorio
+```
+
+A aplicacao expoe a porta `4001` e grava o SQLite no volume `mock-bank-data`.
 
 ## Credenciais demo
 
 ```text
 Usuario: cliente@mockbank.test
-Senha: senha123
+Senha: 123@Mudar
 ```
 
 ## SQL Injection
@@ -55,7 +71,7 @@ Use o botao **Limpar comentarios** na propria comunidade para apagar os testes e
 Se um payload XSS impedir o uso da tela, acesse diretamente:
 
 ```text
-http://127.0.0.1:3000/clear
+http://127.0.0.1:4001/clear
 ```
 
 ## Observacoes visuais

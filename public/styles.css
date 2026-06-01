@@ -219,9 +219,78 @@ textarea:focus {
   box-shadow: 0 0 0 3px rgba(236, 0, 0, 0.12);
 }
 
+.password-field {
+  position: relative;
+}
+
+.password-field input {
+  padding-right: 52px;
+}
+
+.password-toggle {
+  align-items: center;
+  background: transparent;
+  border-radius: 50%;
+  color: var(--muted);
+  display: inline-flex;
+  height: 38px;
+  justify-content: center;
+  min-height: 38px;
+  padding: 0;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38px;
+}
+
+.password-toggle:hover {
+  background: #fff0f0;
+  color: var(--red);
+  transform: translateY(-50%);
+}
+
+.eye-icon {
+  border: 2px solid currentColor;
+  border-radius: 999px 999px 760px 760px;
+  display: block;
+  height: 14px;
+  position: relative;
+  transform: rotate(45deg);
+  width: 22px;
+}
+
+.eye-icon::before {
+  background: currentColor;
+  border-radius: 50%;
+  content: "";
+  height: 6px;
+  left: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+}
+
+.password-toggle.is-visible .eye-icon::after {
+  background: currentColor;
+  content: "";
+  height: 2px;
+  left: -3px;
+  position: absolute;
+  top: 50%;
+  transform: rotate(90deg);
+  width: 28px;
+}
+
 form button {
   margin-top: 18px;
   width: 100%;
+}
+
+form .password-toggle {
+  margin-top: 0;
+  width: 38px;
 }
 
 .login-links {

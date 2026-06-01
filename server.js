@@ -5,7 +5,9 @@ const path = require("path");
 const fs = require("fs");
 
 const app = express();
-const port = Number(process.env.PORT || 3000);
+const port = Number(process.env.PORT || 4001);
+const host = process.env.HOST || "127.0.0.1";
+const sessionSecret = process.env.SESSION_SECRET || "mock-bank-demo-secret";
 const dataDir = path.join(__dirname, "data");
 const dbPath = path.join(dataDir, "mock-bank.db");
 
@@ -17,7 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   session({
-    secret: "mock-bank-demo-secret",
+    secret: sessionSecret,
     resave: false,
     saveUninitialized: false,
     cookie: { httpOnly: true }
@@ -100,7 +102,7 @@ async function initializeDatabase() {
       [
         "Marina Andrade",
         "cliente@mockbank.test",
-        "senha123",
+        "123@Mudar",
         "3842",
         "009873-2",
         18427.65
@@ -119,6 +121,11 @@ async function initializeDatabase() {
       `,
       [user.lastID, user.lastID, user.lastID, user.lastID, user.lastID]
     );
+  } else {
+    await run("UPDATE users SET password = ? WHERE email = ?", [
+      "123@Mudar",
+      "cliente@mockbank.test"
+    ]);
   }
 }
 
@@ -146,6 +153,7 @@ function pageShell({ title, body, loggedIn = false }) {
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <title>${title} | Mock Bank</title>
       <link rel="stylesheet" href="/styles.css">
+      <script defer src="/app.js"></script>
     </head>
     <body>
       <header class="topbar">
@@ -187,7 +195,12 @@ function loginPage(error = "", debugSql = "") {
             <label for="email">CPF, e-mail ou usuario</label>
             <input id="email" name="email" autocomplete="username" placeholder="cliente@mockbank.test" required>
             <label for="password">Senha</label>
-            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="senha123" required>
+            <div class="password-field">
+              <input id="password" name="password" type="password" autocomplete="current-password" required>
+              <button class="password-toggle" type="button" aria-label="Mostrar senha" aria-pressed="false" data-password-toggle>
+                <span class="eye-icon" aria-hidden="true"></span>
+              </button>
+            </div>
             <button type="submit">Acessar minha conta</button>
           </form>
           <div class="login-links">
@@ -214,6 +227,10 @@ app.get("/", (req, res) => {
     return;
   }
   res.send(loginPage());
+});
+
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
 });
 
 app.post("/login", async (req, res) => {
@@ -459,8 +476,8 @@ app.get("/logout", (req, res) => {
 
 initializeDatabase()
   .then(() => {
-    app.listen(port, "127.0.0.1", () => {
-      console.log(`Mock Bank rodando em http://127.0.0.1:${port}`);
+    app.listen(port, host, () => {
+      console.log(`Mock Bank rodando em http://${host}:${port}`);
       console.log("Demo SQLi: usuario = ' OR 1=1 -- | senha = qualquer valor");
       console.log("Demo XSS: <img src=x onerror=alert('XSS')>");
     });
