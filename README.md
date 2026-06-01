@@ -40,6 +40,8 @@ SESSION_SECRET=troque-por-um-valor-grande-e-aleatorio
 
 A aplicacao expoe a porta `4001` e grava o SQLite no volume `mock-bank-data`.
 
+Se o Coolify falhar em `docker push bank:<commit>`, o build passou e o problema esta no registry configurado no Coolify. Para deploy no mesmo servidor, desative o push para registry. Se quiser usar registry externo, configure as credenciais e use um nome com namespace, por exemplo `geovanent/treinamento-cyber`, nao apenas `bank`.
+
 ## Credenciais demo
 
 ```text

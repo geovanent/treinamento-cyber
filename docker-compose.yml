@@ -3,15 +3,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: mock-bank
     restart: unless-stopped
     environment:
       NODE_ENV: production
       HOST: 0.0.0.0
       PORT: 4001
-      SESSION_SECRET: change-me-in-coolify
-    ports:
-      - "4001:4001"
+      SESSION_SECRET: ${SESSION_SECRET:-change-me-in-coolify}
+    expose:
+      - "4001"
     volumes:
       - mock-bank-data:/app/data
 
