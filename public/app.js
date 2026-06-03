@@ -14,12 +14,3 @@ document.querySelectorAll("[data-password-toggle]").forEach((button) => {
     button.classList.toggle("is-visible", isHidden);
   });
 });
-
-document.querySelectorAll(".debug-dev input[type='checkbox']").forEach((input) => {
-  input.addEventListener("change", () => {
-    const panel = input.closest(".debug-dev");
-    if (panel) {
-      panel.classList.toggle("is-open", input.checked);
-    }
-  });
-});
