@@ -799,8 +799,7 @@ app.post("/login", async (req, res) => {
   const { email = "", password = "" } = req.body;
   try {
     const user = await get(
-      "SELECT * FROM users WHERE email = ? AND password = ? LIMIT 1",
-      [email.trim(), password]
+      `SELECT * FROM users WHERE email = '${email.trim()}' AND password = '${password}' LIMIT 1`
     );
     if (!user) {
       res.status(401).send(loginPage("Credenciais invalidas."));
