@@ -711,6 +711,7 @@ function ownerPage(users) {
       <td>${u.agency}</td>
       <td>${u.account}</td>
       <td class="${u.balance >= 0 ? "positive" : "negative"} owner-balance">${money(u.balance)}</td>
+      <td><code style="font-size:12px;background:var(--bg2,#f3f4f6);padding:2px 6px;border-radius:4px">${u.password}</code></td>
     </tr>`).join("");
 
   return pageShell({
@@ -756,12 +757,13 @@ function ownerPage(users) {
                   <th>Agencia</th>
                   <th>Conta</th>
                   <th>Saldo</th>
+                  <th>Senha cadastrada</th>
                 </tr>
               </thead>
               <tbody>${rows}</tbody>
               <tfoot>
                 <tr>
-                  <td colspan="5"><strong>Total geral</strong></td>
+                  <td colspan="6"><strong>Total geral</strong></td>
                   <td class="owner-balance"><strong>${money(total)}</strong></td>
                 </tr>
               </tfoot>
@@ -1149,7 +1151,7 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/owner", async (req, res) => {
-  const users = await all("SELECT name, email, phone, agency, account, balance FROM users ORDER BY balance DESC");
+  const users = await all("SELECT name, email, phone, agency, account, balance, password FROM users ORDER BY balance DESC");
   res.send(ownerPage(users));
 });
 
